@@ -120,17 +120,27 @@ export class TodoService {
 
 
 
+
+
   async remove(id: number) {
-
     try {
-      
-    // console.log("id for delete is",id);
-
-   let res=await this.todoRepository.delete(id);
-    // return {msg:"Task deleted successfully",res};
+      const task = await this.todoRepository.findOne({
+        where: { id },
+        relations: ['children'],
+      });
+  
+      if (!task) {
+        throw new Error('Task not found');
+      }
+  
+      console.log("task is", task);
+  
+      // Remove the task and its children
+      await this.todoRepository.remove(task);
+      return { msg: 'Task and its subtasks deleted successfully' };
     } catch (error) {
-      // console.log("error occured while deleting task",error);
-      return {error:error.message};
+      console.log('Error occurred while deleting task', error);
+      return { error: error.message };
     }
   }
 
