@@ -15,7 +15,7 @@ export class Todo {
     @Column()
     description: string;
     
-    @Column()
+    @Column({ nullable: false})
     status: Status;
 
     @Column()

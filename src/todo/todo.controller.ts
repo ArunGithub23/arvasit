@@ -24,10 +24,13 @@ export class TodoController {
   findOne(@Param('id') id: string) {
     return this.todoService.findOne(+id);
   }
-  
+
 
   @Put(':id')
-  updatetask(){
+  updatetask(@Body() updateTodoDto: UpdateTodoDto, @Param('id') id: string) {
+    
+    return this.todoService.update(+id, updateTodoDto);
+
 
   }
 
@@ -38,8 +41,8 @@ export class TodoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+  update(@Param('id') id: string) {
+    return this.todoService.toggleStatus(+id);
   }
 
 }
